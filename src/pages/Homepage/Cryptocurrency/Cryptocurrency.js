@@ -125,6 +125,7 @@ export const Cryptocurrency = () => {
 
             <Box mt={4} width={'100%'}>
               <CustomButton 
+                disable={true}
                 title={ account ? 'BUY NOW' : 'CONNECT WALLET'} 
                 styles={styles}
                 handleClick={

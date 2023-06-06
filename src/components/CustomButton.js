@@ -1,11 +1,12 @@
 import { Button, Typography } from "@mui/material"
 
-export const CustomButton = ({ title, styles, showMore, handleClick }) => {
+export const CustomButton = ({ disable, title, styles, showMore, handleClick }) => {
   return (
     <Button variant='h5'
       onClick={handleClick}
+      disabled={ disable === true ? true : false }
       sx={{
-        background: '#3C2C2D',
+        background: disable === true ? '#937d72' : '#3C2C2D',
         borderRadius: '4px',
         padding: '12px 32px',
         fontFamily: 'Inter',
@@ -13,7 +14,7 @@ export const CustomButton = ({ title, styles, showMore, handleClick }) => {
         fontSize: 12,
         lineHeight: '24px',
         letterSpacing: '0.17em',
-        color: '#F7FBFA',
+        color: '#F7FBFA !important',
         '&:hover': {
           background: '#2c2325',
         },

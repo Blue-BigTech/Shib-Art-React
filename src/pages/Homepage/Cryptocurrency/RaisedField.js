@@ -17,9 +17,10 @@ export const RaisedField = ({ raisedValue }) => {
         zIndex: 1000,
       }}>
         {
-          raisedValue === 0 ?
-          `Raise is coming soon` :
-          `RAISED SO FAR: $ ${(Math.round(raisedValue * 100) / 100).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`
+          // raisedValue === 0 ?
+          `RAISE IS COMING SOON` 
+          // :
+          // `RAISED SO FAR: $ ${(Math.round(raisedValue * 100) / 100).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`
 
         }
       </Typography>

@@ -16,7 +16,12 @@ export const RaisedField = ({ raisedValue }) => {
         letterSpacing: '2.5px',
         zIndex: 1000,
       }}>
-        RAISED SO FAR: $ {(Math.round(raisedValue * 100) / 100).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} 
+        {
+          raisedValue === 0 ?
+          `Raise is coming soon` :
+          `RAISED SO FAR: $ ${(Math.round(raisedValue * 100) / 100).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`
+
+        }
       </Typography>
     </Box>
   )

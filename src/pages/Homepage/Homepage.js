@@ -25,14 +25,6 @@ export const Homepage = () => {
     cryptoType, 
     setRaiseValue,
   } = useContext(Context)
-
-  
-  const loadToeknContract = async () => {
-    const tokenContractAddress = addressSet.WETH;
-    if(window.web3) {
-      return await new window.web3.eth.Contract(TokenABI, tokenContractAddress);
-    }
-  }
   
   const loadWeb3 = async () => {
     if (window.ethereum) {
@@ -91,13 +83,19 @@ export const Homepage = () => {
           return await new window.web3.eth.Contract(currentABI.abi, currentContractAddress.testnet);
         }
       }
+      const loadToeknContract = async () => {
+        const currentWContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.estimate === true )
+        if(window.web3) {
+          return await new window.web3.eth.Contract(TokenABI, currentWContractAddress.testnet);
+        }
+      }
       let _contract = await loadContract();
       let _tokenContract = await loadToeknContract();
       setContract(_contract)
       setTokenContract(_tokenContract)
     }
     effect();
-  }, [account, currentChainId, setContract, setTokenContract, cryptoType]);
+  }, [account, currentChainId, setContract, setTokenContract, cryptoType ]);
 
   useEffect(() => {
     const effect = async () => {

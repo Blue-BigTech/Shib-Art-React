@@ -83,7 +83,7 @@ export const Footer = () => {
                           :
                           <Link
                             href={item.url} 
-                            target={ item.name === 'Whitepaper' ? '_blank' : '_self' }
+                            target={ item.name === 'Whitepaper' || item.name === "Twitter" || item.name === "Discord" ? '_blank' : '_self' }
                             sx={{
                               display: 'flex',
                               alignItems: 'center',

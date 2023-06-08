@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react"
+import { useEffect, useContext, useRef } from "react"
 
 import { Box } from "@mui/material"
 import { useWeb3React } from '@web3-react/core'
@@ -11,6 +11,9 @@ import { tokenContractABI as TokenABI } from '../../constant/contractABI';
 import { Context } from "../../context/AppContext";
 
 export const Homepage = () => {
+  const scrollToDiv = (ref) => ref.current.scrollIntoView({ behavior: "smooth", block: "start" });;
+  const top = useRef(null);
+
   const { account } = useWeb3React()
   const { 
     setPoints, 
@@ -145,11 +148,11 @@ export const Homepage = () => {
 
   return (
     <Box mt={2}>
-      <Cryptocurrency />
+      <Cryptocurrency reference={top}/>
       <ShibartGenerate />
       <Gallery />
       <Roadmap />
-      <TokenAirdrop />
+      <TokenAirdrop click={()=> scrollToDiv(top)} />
     </Box>
   )
 }

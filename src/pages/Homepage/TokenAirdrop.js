@@ -8,7 +8,7 @@ const items = [
   { title: 'Start earning $ART airdrop', text: 'Receive an airdrop on launch!' },
 ]
 
-export const TokenAirdrop = () => {
+export const TokenAirdrop = ({click}) => {
   const matches = useMediaQuery('(min-width:426px)');
 
   return (
@@ -27,7 +27,7 @@ export const TokenAirdrop = () => {
         lineHeight: { md: '96px', sm: '68px', xs: '48px'},
         textAlign: { sm: 'center', xs: 'left'} 
       }}>
-        <span style={{ color: matches? '#F29B4C' : '#FE6768' }}>$ART</span> 50 billion token airdrop
+        <span style={{ color: matches? '#F29B4C' : '#FE6768' }}>$ART</span> 50 million token airdrop
       </Typography>
       <Typography px={{ sm: 4, xs: 0 }} variant="h4" sx={{
         textAlign: { sm: 'center', xs: 'left'},
@@ -75,7 +75,7 @@ export const TokenAirdrop = () => {
       </Grid>
 
       <Box display={'flex'} justifyContent={'center'} mt={12}>
-        <CustomButton title="BUY $ART NOW" />
+        <CustomButton title="BUY $ART NOW" handleClick={click} />
       </Box>
     </Box>
   )

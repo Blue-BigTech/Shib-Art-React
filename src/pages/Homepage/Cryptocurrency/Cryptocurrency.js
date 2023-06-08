@@ -19,7 +19,7 @@ import a_eth from '../../../assets/images/home/a_eth.png'
 
 const styles = { width: '100%' }
 
-export const Cryptocurrency = () => {
+export const Cryptocurrency = ({reference}) => {
   const { account } = useWeb3React()
   const { 
     setOpenModal, 
@@ -77,7 +77,7 @@ export const Cryptocurrency = () => {
     <Box sx={{
       background: '#f1f4f4',
     }}>
-      <Box id='buy$ART' sx={{
+      <Box ref={reference} id='buy$ART' sx={{
         maxWidth: '1440px',
         margin: 'auto',
       }}>

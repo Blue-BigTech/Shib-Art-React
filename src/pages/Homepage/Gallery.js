@@ -76,7 +76,7 @@ export const Gallery = () => {
       }}>
         Shiba art you'll love
       </Typography>
-      <input type="search" 
+      {/* <input type="search" 
         placeholder="Shiba inu wearing sunglasses"
         style={{
           display: matches ? 'none' : 'block',
@@ -90,8 +90,8 @@ export const Gallery = () => {
           lineHeight: '24px',
           padding: '10px 24px',
         }} 
-      />
-      <Box mt={{ sm: 8, xs: 4 }} display={'flex'} justifyContent={'space-between'} alignItems={'center'} gap={2}>
+      /> */}
+      {/* <Box mt={{ sm: 8, xs: 4 }} display={'flex'} justifyContent={'space-between'} alignItems={'center'} gap={2}>
         <input type="search"
           placeholder="Shiba inu wearing sunglasses"
           style={{
@@ -122,7 +122,7 @@ export const Gallery = () => {
           }} />
         </Box>
 
-      </Box>
+      </Box> */}
       <Box mt={12}>
         <Grid container spacing={{ sm: 8, xs: 4 }}>
           {
@@ -136,7 +136,7 @@ export const Gallery = () => {
           }
         </Grid>
         <Box display={'flex'} justifyContent={'center'} mt={{ sm: 12, xs: 6 }}>
-          <CustomButton title='EXPLORER MORE' showMore={showMoreCount} handleClick={handleMoreClick} />
+          <CustomButton title='EXPLORE MORE' showMore={showMoreCount} handleClick={handleMoreClick} />
         </Box>
       </Box>
     </Box>

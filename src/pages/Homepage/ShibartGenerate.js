@@ -81,7 +81,7 @@ export const ShibartGenerate = () => {
           )}
         </Ticker>
         <Box mt={8} display={'flex'} justifyContent={'center'}>
-          <CustomButton title='START CREATING' />
+          <CustomButton disable={true} title='START CREATING' />
         </Box>
       </Box>
     </Box>

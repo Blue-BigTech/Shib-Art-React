@@ -23,7 +23,7 @@ export const CustomButton = ({ disable, title, styles, showMore, handleClick }) 
     >
       {title}
       {
-        title === 'EXPLORER MORE' && showMore !== 0 &&
+        title === 'EXPLORE MORE' && showMore !== 0 &&
         <Typography ml={2} variant="h5" sx={{
           display: { sm: 'none', xs: 'block' },
           background: '#E1E2E2',

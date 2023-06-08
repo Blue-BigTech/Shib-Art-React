@@ -17,7 +17,7 @@ export const DurationField = ({ timerValue }) => {
         fontSize: 20,
         color: '#525252 !important',
         textAlign: 'center',
-      }}>Time Until Price Increase</Typography>
+      }}>Time Until Price Increases</Typography>
       <Box mt={1} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
         {
           durations.map((item, i) => (

@@ -119,3 +119,9 @@ export const networks = {
     chainId: `0x${Number(11155111).toString(16)}`
   },
 };
+
+export const rpcs = {
+  '0xaa36a7': 'https://rpc2.sepolia.org',
+  '0x61': 'https://data-seed-prebsc-1-s1.binance.org:8545',
+  '0x66eed': 'https://endpoints.omniatech.io/v1/arbitrum/goerli/public'
+}

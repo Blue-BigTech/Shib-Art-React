@@ -3,7 +3,8 @@ import { useState, createContext } from 'react';
 const Context = createContext();
 
 const AppProvider = ({children}) => {
-
+  const [ myWeb3, setMyWeb3 ] = useState(null)
+  const [ walletAddress, setWalletAddress ] = useState(localStorage.getItem('wallet account'))
   const [ openModal, setOpenModal ] = useState(false)
   const [ contract, setContract ] = useState(null);
   const [ currentChainId, setCurrentChainId ] = useState('0xaa36a7');
@@ -15,6 +16,8 @@ const AppProvider = ({children}) => {
   const [ timerValue, setTimerValue ] = useState(0)
   const [ cryptoType, setCryptoType ] = useState('s_Raiser')
   const [ raiseValue, setRaiseValue ] = useState(0)
+  const [ chainStatus, setChainStatus ] = useState(false)
+  const [ clickStatus, setClickStatus ] = useState(false)
 
   return (
     <Context.Provider 
@@ -30,6 +33,10 @@ const AppProvider = ({children}) => {
         timerValue, setTimerValue,
         cryptoType, setCryptoType,
         raiseValue, setRaiseValue,
+        walletAddress, setWalletAddress,
+        myWeb3, setMyWeb3,
+        chainStatus, setChainStatus,
+        clickStatus, setClickStatus,
       }}
     >
       {children}

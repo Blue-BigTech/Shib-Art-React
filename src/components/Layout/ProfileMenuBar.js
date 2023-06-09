@@ -9,7 +9,21 @@ import copy from 'copy-to-clipboard';
 import loginedIcon from '../../assets/images/home/off.png'
 import { palette } from '../../themes';
 
-export const ProfileMenuBar = ({ setProfileMenuOpen, profileMenuOpen, open, account, deactivate }) => {
+export const ProfileMenuBar = ({ 
+  setProfileMenuOpen, 
+  profileMenuOpen, 
+  open, 
+  account, 
+  deactivate, 
+  walletAddress, 
+  setWalletAddress 
+}) => {
+  const handleDisconnect = () => {
+    deactivate()
+    localStorage.setItem("wallet account", undefined)
+    setWalletAddress('undefined')
+  }
+  
   return (
     <Box>
       <Box component={'img'} alt='' 
@@ -57,7 +71,7 @@ export const ProfileMenuBar = ({ setProfileMenuOpen, profileMenuOpen, open, acco
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem 
-          onClick={() => copy(account)}
+          onClick={() => copy(walletAddress)}
           sx={{
             color: palette.common.black,
           }}
@@ -74,7 +88,7 @@ export const ProfileMenuBar = ({ setProfileMenuOpen, profileMenuOpen, open, acco
         >
           <Link 
             target={'_blank'}
-            href={`https://sepolia.etherscan.io/address/${account}`}
+            href={`https://sepolia.etherscan.io/address/${walletAddress}`}
             sx={{
               color: 'black',
               fontFamily: 'inherit',
@@ -90,7 +104,7 @@ export const ProfileMenuBar = ({ setProfileMenuOpen, profileMenuOpen, open, acco
           </Link>
         </MenuItem>
         <MenuItem 
-          onClick={()=> deactivate()}
+          onClick={handleDisconnect}
           sx={{
             color: palette.common.black,
           }}

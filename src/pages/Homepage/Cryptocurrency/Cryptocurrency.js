@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react"
 import { Box, Grid } from "@mui/material"
-import { useWeb3React } from '@web3-react/core'
 
 import { 
   CryptoTypeField,
@@ -19,8 +18,7 @@ import a_eth from '../../../assets/images/home/a_eth.png'
 
 const styles = { width: '100%' }
 
-export const Cryptocurrency = ({reference}) => {
-  const { account } = useWeb3React()
+export const Cryptocurrency = () => {
   const { 
     setOpenModal, 
     setCurrentChainId,
@@ -35,6 +33,9 @@ export const Cryptocurrency = ({reference}) => {
     cryptoType, 
     setCryptoType,
     raiseValue,
+    walletAddress,
+    setChainStatus,
+    chainStatus,
   } = useContext(Context)
   const [ selectedTokenIcon, setSelectedTokenIcon ] = useState(a_eth)
   const [ buyValue, setBuyValue ] = useState(0)
@@ -47,24 +48,33 @@ export const Cryptocurrency = ({reference}) => {
   const handleBuyNowClick = async () => {
     try {
       let value = window.web3.utils.toWei(buyValue.toString(), 'ether');
-      const currentWContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.estimate === true )
-      const currentContractAddress = addressSet.find(( item ) => item.cryptoType === cryptoType )
+      let currentWContractAddress
+      let currentContractAddress
+      if(cryptoType !== "a_Raiser" || cryptoType !== "b_Raiser" || cryptoType !== "s_Raiser") {
+        currentWContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.estimate === true )
+        currentContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.erc20 === false )
+      } else {
+        currentWContractAddress = addressSet.find(( item ) => item.cryptoType === cryptoType && item.chainId === currentChainId && item.erc20 === true )
+        currentContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.erc20 === false )
+      }
 
-      await tokenContract?.methods.allowance(account, currentContractAddress.testnet).call()
+      await tokenContract?.methods.allowance(walletAddress, currentContractAddress.testnet).call()
       .then( async res=>{
-        if(Number(res) === 0) {
-          await tokenContract?.methods.approve(currentContractAddress.testnet, value).send({ from: account })
-            .then(async res1 => {
-              console.log("Buy Now res", res1.blockHash);
-              await contract?.methods.contribute(currentWContractAddress.testnet, value).send({value: res, from: account})
-              .then(res2 => {
-                console.log("Buy Now res", res2);
+        if(cryptoType !== "a_Raiser" && cryptoType !== "b_Raiser" && cryptoType !== "s_Raiser") {
+          if(Number(res) === 0) {
+            await tokenContract?.methods.approve(currentContractAddress.testnet, value).send({ from: walletAddress })
+              .then(async res1 => {
+                console.log("Buy Now res1", res1.blockHash);
+                await contract?.methods.contribute(currentWContractAddress.testnet, value).send({value: res, from: walletAddress})
+                .then(res2 => {
+                  console.log("Buy Now res2", res2);
+                })
               })
-            })
+          }
         }
-        await contract?.methods.contribute(currentWContractAddress.testnet, value).send({value: res, from: account})
-          .then(res2 => {
-            console.log("Buy Now res", res2);
+        await contract?.methods.contribute(currentWContractAddress.testnet, res).send({value: value, from: walletAddress})
+          .then(res3 => {
+            console.log("Buy Now res3", res3);
           })
       })
     }
@@ -77,7 +87,7 @@ export const Cryptocurrency = ({reference}) => {
     <Box sx={{
       background: '#f1f4f4',
     }}>
-      <Box ref={reference} id='buy$ART' sx={{
+      <Box id='buy$ART' sx={{
         maxWidth: '1440px',
         margin: 'auto',
       }}>
@@ -101,7 +111,9 @@ export const Cryptocurrency = ({reference}) => {
                 setCurrentChainId={setCurrentChainId}
                 currentChainId={currentChainId}
                 setCryptoType={setCryptoType} 
-                setSelectedTokenIcon={setSelectedTokenIcon} 
+                setSelectedTokenIcon={setSelectedTokenIcon}
+                setChainStatus={setChainStatus}
+                chainStatus={chainStatus}
               />
               <TokenBalanceField 
                 cryptoType={cryptoType}
@@ -109,6 +121,7 @@ export const Cryptocurrency = ({reference}) => {
                 tokenBalance={tokenBalance} 
                 currentPrice={currentPrice}
                 nextPrice={nextPrice}
+                walletAddress={walletAddress}
               />
               <DurationField  timerValue={timerValue} />
               <RaisedField raisedValue={raiseValue} />
@@ -124,12 +137,11 @@ export const Cryptocurrency = ({reference}) => {
             />
 
             <Box mt={4} width={'100%'}>
-              <CustomButton 
-                disable={true}
-                title={ account ? 'BUY NOW' : 'CONNECT WALLET'} 
+              <CustomButton
+                title={ walletAddress === 'undefined' ? 'CONNECT WALLET' : 'BUY NOW'} 
                 styles={styles}
                 handleClick={
-                  account ? handleBuyNowClick : handleOpenModalClick }
+                  walletAddress === 'undefined' ? handleOpenModalClick : handleBuyNowClick }
               />
             </Box>
           </Grid>

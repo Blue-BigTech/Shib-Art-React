@@ -65,7 +65,7 @@ export const ShibartGenerate = () => {
       </Typography>
 
       <Box mt={8} px={{ sm: '', xs: '8px' }}>
-          <Ticker move={true}>
+          <Ticker move={true} direction={'toRight'}>
           { ({ index }) => (
             <Box display={'flex'} gap={{ sm: 6, xs: 4 }} mx={3}>
               { 
@@ -81,7 +81,7 @@ export const ShibartGenerate = () => {
           )}
         </Ticker>
         <Box mt={8} display={'flex'} justifyContent={'center'}>
-          <CustomButton disable={true} title='START CREATING' />
+          <CustomButton title='START CREATING' />
         </Box>
       </Box>
     </Box>

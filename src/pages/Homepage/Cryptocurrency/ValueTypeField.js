@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { Box, Grid, Typography } from "@mui/material"
 
 import { InputField } from '../../../components/InputField'
@@ -17,6 +17,11 @@ export const ValueTypeField = ({
   currentChainId
 }) => {
   const { contract } = useContext(Context)
+
+  useEffect(()=> {
+    setBuyValue(0)
+    setPointsValue(0)
+  }, [currentChainId, setBuyValue, setPointsValue])
 
   const handleMaxValue = async () => {
     setBuyValue(tokenBalance)

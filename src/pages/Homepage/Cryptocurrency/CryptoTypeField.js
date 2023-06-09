@@ -31,17 +31,18 @@ export const CryptoTypeField = ({
   setCurrentChainId,
   cryptoType, 
   setCryptoType, 
-  setSelectedTokenIcon 
+  setSelectedTokenIcon,
+  setChainStatus,
 }) => {
 
   const handleDefaultSwitch = async (networkName) => {
     await changeDefault({ networkName });
   };
 
-
   const networkChanged = useCallback( (chainId) => {
     setCurrentChainId(chainId)
-  }, [setCurrentChainId]);
+    setChainStatus(true)
+  }, [setCurrentChainId, setChainStatus]);
 
   useEffect(() => {
     if(window.ethereum) {

@@ -25,7 +25,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const { account, deactivate } = useWeb3React()
 
-  const { openModal, setOpenModal } = useContext(Context)
+  const { openModal, setOpenModal, walletAddress, setWalletAddress, setClickStatus } = useContext(Context)
   const [ menuOpen, setMenuOpen ] = useState(false)
   const [ profileMenuOpen, setProfileMenuOpen ] = useState(null);
   const open = Boolean(profileMenuOpen);
@@ -87,7 +87,7 @@ export const Header = () => {
             ))
           }
           {
-            account === undefined ?
+            walletAddress === 'undefined' ?
             <Button variant='h5'
               onClick={() => setOpenModal(true)}
               sx={{
@@ -108,6 +108,8 @@ export const Header = () => {
               open={open}
               account={account}
               deactivate={deactivate}
+              setWalletAddress={setWalletAddress}
+              walletAddress={walletAddress}
             />
           }
         </Box>
@@ -137,84 +139,102 @@ export const Header = () => {
               </Box>
             </Box>
             <Box>
-              {
-                navbars.map((item, i) => (
-                    item.name === 'WHITEPAPER' ?
-                      <Link 
-                        key={i}
-                        variant='h5'
-                        px={4}
-                        py={{ sm: 4, xs: 3}}
-                        target={ item.name === 'WHITEPAPER' ? '_blank' : '_self' }
-                        href={item.url}
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          borderBottom: '1px solid #202025',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <Typography variant='h3' sx={ i === 0 && {
-                          background: 'conic-gradient(from 180deg at 50% 50%, #5FFF5C -18.66deg, #FFE249 22.23deg, #F35950 78.14deg, #7C5BFF 159deg, #1CE4FF 202.32deg, #5FFF5C 341.34deg, #FFE249 382.23deg)',
-                          backgroundClip: 'text',
-                          textFillColor: 'transparent',
-                        }}>
-                          {item.name}
-                        </Typography>
-                        <ArrowForwardIcon sx={{ color: '#555555' }} />
-                      </Link> :
-                      <Link 
-                        key={i}
-                        variant='h5'
-                        px={4}
-                        py={{ sm: 4, xs: 3}}
-                        onClick={()=>{
-                          navigate(item.name === 'FAQ' ? '/FAQ': '#buy$ART')
-                          setMenuOpen(false)
-                        }}
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          borderBottom: '1px solid #202025',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <Typography variant='h3' sx={ i === 0 && {
-                          background: 'conic-gradient(from 180deg at 50% 50%, #5FFF5C -18.66deg, #FFE249 22.23deg, #F35950 78.14deg, #7C5BFF 159deg, #1CE4FF 202.32deg, #5FFF5C 341.34deg, #FFE249 382.23deg)',
-                          backgroundClip: 'text',
-                          textFillColor: 'transparent',
-                        }}>
-                          {item.name}
-                        </Typography>
-                        <ArrowForwardIcon sx={{ color: '#555555' }} />
-                      </Link>
+              { navbars.map((item, i) => (
+                  item.name === 'WHITEPAPER' ?
+                  <Link 
+                    key={i}
+                    variant='h5'
+                    px={4}
+                    py={{ sm: 4, xs: 3}}
+                    target={ item.name === 'WHITEPAPER' ? '_blank' : '_self' }
+                    href={item.url}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderBottom: '1px solid #202025',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Typography variant='h3' sx={ i === 0 && {
+                      background: 'conic-gradient(from 180deg at 50% 50%, #5FFF5C -18.66deg, #FFE249 22.23deg, #F35950 78.14deg, #7C5BFF 159deg, #1CE4FF 202.32deg, #5FFF5C 341.34deg, #FFE249 382.23deg)',
+                      backgroundClip: 'text',
+                      textFillColor: 'transparent',
+                    }}>
+                      {item.name}
+                    </Typography>
+                    <ArrowForwardIcon sx={{ color: '#555555' }} />
+                  </Link> :
+                  <Link 
+                    key={i}
+                    variant='h5'
+                    px={4}
+                    py={{ sm: 4, xs: 3}}
+                    onClick={()=>{
+                      navigate(item.name === 'FAQ' ? '/FAQ': '#buy$ART')
+                      setMenuOpen(false)
+                    }}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderBottom: '1px solid #202025',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Typography variant='h3' sx={ i === 0 && {
+                      background: 'conic-gradient(from 180deg at 50% 50%, #5FFF5C -18.66deg, #FFE249 22.23deg, #F35950 78.14deg, #7C5BFF 159deg, #1CE4FF 202.32deg, #5FFF5C 341.34deg, #FFE249 382.23deg)',
+                      backgroundClip: 'text',
+                      textFillColor: 'transparent',
+                    }}>
+                      {item.name}
+                    </Typography>
+                    <ArrowForwardIcon sx={{ color: '#555555' }} />
+                  </Link>
                 ))
               }
             </Box>
             <Box display={'flex'} justifyContent={'center'} p={4}>
-              <Button variant='h5'
-                onClick={() => {
-                  setOpenModal(true)
-                  setMenuOpen(false)
-                }}
-                sx={{
-                  width: '100%',
-                  background: 'white',
-                  color: 'black',
-                  border: '2px solid #555555',
-                  borderRadius: '4px',
-                  padding: '12px 32px',
-                  fontWeight: 600,
-                }}
-              >CONNECT WALLET</Button>
+              {
+                walletAddress === 'undefined' ?
+                <Button variant='h5'
+                  onClick={() => {
+                    setOpenModal(true)
+                    setMenuOpen(false)
+                  }}
+                  sx={{
+                    width: '100%',
+                    background: 'white',
+                    color: 'black',
+                    border: '2px solid #555555',
+                    borderRadius: '4px',
+                    padding: '12px 32px',
+                    fontWeight: 600,
+                  }}
+                >CONNECT WALLET</Button>
+                :
+                <ProfileMenuBar 
+                  setProfileMenuOpen={setProfileMenuOpen}  
+                  profileMenuOpen={profileMenuOpen} 
+                  open={open}
+                  account={account}
+                  deactivate={deactivate}
+                  setWalletAddress={setWalletAddress}
+                  walletAddress={walletAddress}
+                />
+              }
             </Box>
           </Box>
         </Box>
       }
 
-      <WalletConnectModal setOpenModal={setOpenModal} openModal={openModal} />
+      <WalletConnectModal 
+        setOpenModal={setOpenModal} 
+        openModal={openModal} 
+        walletAddress={walletAddress}  
+        setWalletAddress={setWalletAddress}
+        setClickStatus={setClickStatus}
+      />
     </Box>
   )
 }

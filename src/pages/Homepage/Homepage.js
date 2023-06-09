@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef } from "react"
+import { useEffect, useContext } from "react"
 
 import { Box } from "@mui/material"
 import { useWeb3React } from '@web3-react/core'
@@ -11,9 +11,6 @@ import { tokenContractABI as TokenABI } from '../../constant/contractABI';
 import { Context } from "../../context/AppContext";
 
 export const Homepage = () => {
-  const scrollToDiv = (ref) => ref.current.scrollIntoView({ behavior: "smooth", block: "start" });;
-  const top = useRef(null);
-
   const { account } = useWeb3React()
   const { 
     setPoints, 
@@ -24,9 +21,13 @@ export const Homepage = () => {
     setContract,
     contract,
     currentChainId,
+    setCurrentChainId,
     setTokenContract,
     cryptoType, 
     setRaiseValue,
+    walletAddress,
+    setCryptoType,
+    chainStatus,
   } = useContext(Context)
   
   const loadWeb3 = async () => {
@@ -35,6 +36,11 @@ export const Homepage = () => {
       // window.ethereum.enable();
     }
   }
+
+  useEffect(() => {
+    setCurrentChainId('0xaa36a7')
+    setCryptoType('s_Raiser')
+  }, [setCurrentChainId, setCryptoType ])
 
   useEffect(() => {
     const effect = async () => {
@@ -75,20 +81,22 @@ export const Homepage = () => {
     if (window.web3) {
       effect();
     }
-  }, [setTokenBalance, currentChainId, account]);
+  }, [setTokenBalance, currentChainId, account, chainStatus]);
 
   useEffect(() => {
     const effect = async () => {
       const loadContract = async () => {
         if (window.web3) {
-          const currentContractAddress = addressSet.find(( item ) => item.cryptoType === cryptoType )
-          const currentABI = ABI.find(( item ) => item.cryptoType === cryptoType )
-          return await new window.web3.eth.Contract(currentABI.abi, currentContractAddress.testnet);
+          const currentContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.erc20 === false )
+          const currentABI = ABI.find(( item ) => item.chainId === currentChainId && item.erc20 === false )
+          if(currentContractAddress && currentABI) {
+            return await new window.web3.eth.Contract(currentABI.abi, currentContractAddress.testnet);
+          }
         }
       }
       const loadToeknContract = async () => {
         const currentWContractAddress = addressSet.find(( item ) => item.chainId === currentChainId && item.estimate === true )
-        if(window.web3) {
+        if(window.web3 && currentWContractAddress) {
           return await new window.web3.eth.Contract(TokenABI, currentWContractAddress.testnet);
         }
       }
@@ -98,38 +106,38 @@ export const Homepage = () => {
       setTokenContract(_tokenContract)
     }
     effect();
-  }, [account, currentChainId, setContract, setTokenContract, cryptoType ]);
+  }, [account, walletAddress, currentChainId, setContract, setTokenContract, cryptoType, chainStatus ]);
 
   useEffect(() => {
     const effect = async () => {
-      if(account) {
-        await contract?.methods.pointsGained(account).call()
+      if(walletAddress !== 'undefined') {
+        await contract?.methods.pointsGained(walletAddress).call()
         .then(res=>{
           setPoints(res)
         })
         .catch(err=>{
           console.log(err);
         })
+        await contract?.methods.currentPrice().call()
+        .then(res=>{
+          setCurrentPrice(window.web3.utils.fromWei(res.toString(),'ether'))
+        })
+        .catch(err=>{
+          console.log(err);
+        })
+        await contract?.methods.currentPrice().call()
+        .then(res=>{
+          setNextPrice(window.web3.utils.fromWei(res.toString(),'ether'))
+        })
+        .catch(err=>{
+          console.log(err);
+        })
       } 
-      await contract?.methods.currentPrice().call()
-      .then(res=>{
-        setCurrentPrice(window.web3.utils.fromWei(res.toString(),'ether'))
-      })
-      .catch(err=>{
-        console.log(err);
-      })
-      await contract?.methods.currentPrice().call()
-      .then(res=>{
-        setNextPrice(window.web3.utils.fromWei(res.toString(),'ether'))
-      })
-      .catch(err=>{
-        console.log(err);
-      })
     }
     if (window.web3) {
       effect()
     }
-  }, [contract, currentChainId, account, setCurrentPrice, setNextPrice, setPoints])
+  }, [contract, currentChainId, account, walletAddress, setCurrentPrice, setNextPrice, setPoints, chainStatus])
 
   useEffect(() => {
     const interval = setInterval(  async () => {
@@ -144,15 +152,15 @@ export const Homepage = () => {
       })
     }, 1000);
     return () => clearInterval(interval);
-  }, [contract, currentChainId, account, setTimerValue]);
+  }, [contract, currentChainId, account, walletAddress, setTimerValue]);
 
   return (
     <Box mt={2}>
-      <Cryptocurrency reference={top}/>
+      <Cryptocurrency />
       <ShibartGenerate />
       <Gallery />
       <Roadmap />
-      <TokenAirdrop click={()=> scrollToDiv(top)} />
+      <TokenAirdrop />
     </Box>
   )
 }

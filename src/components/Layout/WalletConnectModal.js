@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Box, Typography, Modal, Grid, Button } from '@mui/material';
 import TrendingFlatOutlinedIcon from '@mui/icons-material/TrendingFlatOutlined';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -19,11 +20,17 @@ import closeIcon from '../../assets/images/home/close.png'
 import closeIcon_black from '../../assets/images/home/closeIcon-black.png'
 import placeholder1 from '../../assets/images/home/placeholder1.png'
 
-export const WalletConnectModal = ({ openModal, setOpenModal }) => {
-  const { activate } = useWeb3React()
+export const WalletConnectModal = ({ 
+  openModal, 
+  setOpenModal, 
+  setWalletAddress,
+  setClickStatus
+}) => {
+  const { account, activate } = useWeb3React()
   
   const connetHandler = async (provider) => {
     try {
+      setClickStatus(true)
       if (provider === walletconnect) {
         await activate(provider)
         setOpenModal(false)
@@ -49,6 +56,13 @@ export const WalletConnectModal = ({ openModal, setOpenModal }) => {
         console.log(e.message)
     }
   }
+
+  useEffect(()=> {
+    if(account !== undefined) {
+      localStorage.setItem('wallet account', account)
+      setWalletAddress(account)
+    }
+  }, [account, setWalletAddress ])
 
   return (
     <Modal

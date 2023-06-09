@@ -17,7 +17,7 @@ export const DurationField = ({ timerValue }) => {
         fontSize: 20,
         color: '#525252 !important',
         textAlign: 'center',
-      }}>Time Until Price Increases</Typography>
+      }}>Time Until Price Increase</Typography>
       <Box mt={1} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
         {
           durations.map((item, i) => (
@@ -39,13 +39,12 @@ export const DurationField = ({ timerValue }) => {
                 lineHeight: 1,
                 color: palette.common.white,
               }}>
-                00
-                {/* {
+                {
                   i === 0 ? parseInt(timerValue) : 
                   i === 1 ? parseInt((timerValue-parseInt(timerValue))*24) :
                   i === 2 ? parseInt(((timerValue-parseInt(timerValue))*24 - parseInt((timerValue-parseInt(timerValue))*24))* 60)  :
                   parseInt((((timerValue-parseInt(timerValue))*24 - parseInt((timerValue-parseInt(timerValue))*24))* 60 - parseInt(((timerValue-parseInt(timerValue))*24 - parseInt((timerValue-parseInt(timerValue))*24))* 60))*60)
-                } */}
+                }
               </Typography>
               <Typography sx={{
                 fontSize: 16,

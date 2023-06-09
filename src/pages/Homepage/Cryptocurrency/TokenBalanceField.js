@@ -13,7 +13,8 @@ export const TokenBalanceField = ({
   points, 
   tokenBalance,
   currentPrice,
-  nextPrice
+  nextPrice,
+  walletAddress,
 }) => {
 
   return (
@@ -38,7 +39,7 @@ export const TokenBalanceField = ({
             }}> {item.name}</Typography>
             <Typography variant="h5" sx={{ fontWeight: 700, fontSize: 18 }}>
               {
-                i === 0 ? Number(tokenBalance).toFixed(7) : i === 1 ? `$ ${Number(currentPrice).toFixed(7)}` : i === 2 ? `$ ${Number(nextPrice).toFixed(7)}` : points
+                i === 0 ? walletAddress === 'undefined' ? "NA" : Number(tokenBalance).toFixed(7) : i === 1 ? `$ ${Number(currentPrice).toFixed(7)}` : i === 2 ? `$ ${Number(nextPrice).toFixed(7)}` : points
               }
             </Typography>
           </Box>

@@ -1,22 +1,17 @@
+import { ThemeProvider, Box } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { ThemeProvider, Box } from '@mui/material'
-import { 
-  BrowserRouter,
-  Routes,
-  Route, 
-} from "react-router-dom";
-
-import { Web3ReactProvider } from '@web3-react/core'
+import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
 
-import theme from './themes'
+import theme from "./themes";
 
-import { AppProvider } from './context/AppContext';
-import { Layout } from './components/Layout'
-import { Homepage } from './pages/Homepage'
-import { FAQ } from './pages/FAQ'
+import { AppProvider } from "./context/AppContext";
+import { Layout } from "./components/Layout";
+import { Homepage } from "./pages/Homepage";
+import { FAQ } from "./pages/FAQ";
 
-import './App.css';
+import "./App.css";
 
 import * as buffer from "buffer";
 window.Buffer = buffer.Buffer;
@@ -29,17 +24,19 @@ function getLibrary(provider) {
 
 function App() {
   return (
-    <Box sx={{
-      background: '#F7FBFA',
-    }}>
+    <Box
+      sx={{
+        background: "#F7FBFA",
+      }}
+    >
       <Web3ReactProvider getLibrary={getLibrary}>
         <ThemeProvider theme={theme}>
           <AppProvider>
             <BrowserRouter>
               <Layout>
                 <Routes>
-                  <Route exact path="/" element={ <Homepage />} />
-                  <Route exact path="/FAQ" element={ <FAQ />} />
+                  <Route exact path="/" element={<Homepage />} />
+                  <Route exact path="/FAQ" element={<FAQ />} />
                 </Routes>
               </Layout>
             </BrowserRouter>

@@ -1,14 +1,11 @@
-import { Header, Footer } from './'
+import { Header, Footer } from "./";
 
 export const Layout = (props) => {
-
   return (
     <>
       <Header />
-      <div>
-        {props.children}
-      </div>
+      <div>{props.children}</div>
       <Footer />
     </>
-  )
-}
+  );
+};

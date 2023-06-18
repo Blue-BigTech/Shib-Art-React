@@ -157,25 +157,28 @@ export const Homepage = () => {
           .catch((err) => {
             console.log(err);
           });
-        await contract?.methods
-          .currentPrice()
-          .call()
-          .then((res) => {
-            setCurrentPrice(window.web3.utils.fromWei(res.toString(), "ether"));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        await contract?.methods
-          .currentPrice()
-          .call()
-          .then((res) => {
-            setNextPrice(window.web3.utils.fromWei(res.toString(), "ether"));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       }
+
+      // Remove from conditional statement so that it can be called on page load
+      await contract?.methods
+        .currentPrice()
+        .call()
+        .then((res) => {
+          setCurrentPrice(window.web3.utils.fromWei(res.toString(), "ether"));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      await contract?.methods
+        .currentPrice()
+        .call()
+        .then((res) => {
+          setNextPrice(window.web3.utils.fromWei(res.toString(), "ether"));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
     if (window.web3) {
       effect();

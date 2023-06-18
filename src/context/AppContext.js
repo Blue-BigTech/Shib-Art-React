@@ -4,9 +4,12 @@ const Context = createContext();
 
 const AppProvider = ({ children }) => {
   const [myWeb3, setMyWeb3] = useState(null);
+
+  // Add default to undefined to avoid errors
   const [walletAddress, setWalletAddress] = useState(
     localStorage.getItem("wallet account") || "undefined"
   );
+
   const [openModal, setOpenModal] = useState(false);
   const [contract, setContract] = useState(null);
   const [currentChainId, setCurrentChainId] = useState("0xaa36a7");
